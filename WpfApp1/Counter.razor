@@ -1,0 +1,27 @@
+﻿@implements IDisposable
+@inject WpfApp1.CounterState CounterState
+
+<h1>ここは Web !!</h1>
+
+<p>The current count is: @CounterState.Value</p>
+<button @onclick="IncrementCount">Count</button>
+
+@code {
+    protected override void OnInitialized()
+    {
+        this.CounterState.PropertyChanged += CounterStateChanged;
+    }
+
+    public void Dispose() 
+    {
+        this.CounterState.PropertyChanged -= CounterStateChanged;
+    }
+
+    private void CounterStateChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) =>
+        this.StateHasChanged();
+
+    void IncrementCount()
+    {
+        CounterState.Increment();
+    }
+}
